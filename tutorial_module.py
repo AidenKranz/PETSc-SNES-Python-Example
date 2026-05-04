@@ -81,14 +81,12 @@ def monitor(snes, its, fnorm):
     # Get the current solution vector from the SNES context
     x_current = snes.getSolution()
 
-    # 1. Request read-only access to the array
+    # Request read-only access to the array
     arr = x_current.array_r 
     
-    # 2. Make a copy for our history list
+    # Make a copy for our history list
     iteration_history.append(arr.copy()) 
-    
-    # 3. Explicitly delete the array reference to release the PETSc lock immediately
-    del arr
+
 
 def main():
     OptDB = PETSc.Options()

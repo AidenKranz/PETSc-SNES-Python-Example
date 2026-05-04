@@ -1,0 +1,1 @@
+[Original Documentation](https://petsc.org/release/petsc4py/reference/petsc4py.PETSc.SNES.html#petsc4py.PETSc.SNES.getConvergedReason)
