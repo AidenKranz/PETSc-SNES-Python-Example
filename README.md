@@ -7,7 +7,7 @@ expressing the problem as a root-finding problem $F(u)=0$ where $F(u) = u'' + u^
 `ApplicationContext.F` as $f(x)=6x + x^6$. With border conditions of $u(0)=0$ and $u(1)=1$, the true solution to this problem is $u(x)=x^3$.
 
 In `tutorial_presentation.ipynb` you will find a visualization of the solver's progress. After 3 iterations,
-the Newton method produces $\hat{u}$ with a norm of error $1.49751e-10$
+the Newton method produces $\hat{u}$ with a norm of error of $1.49751e-10$
 
 ## AI Translation
 
