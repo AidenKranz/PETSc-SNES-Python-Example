@@ -42,13 +42,14 @@
         >>> 
         >>> def monitor(snes, it, rnorm):
         >>>     """
-        >>>     >>> Custom monitor function.
+        >>>     Custom monitor function.
         >>>     snes: The SNES object
         >>>     its:  Current iteration number
         >>>     rnorm: Current L2 norm of the residual
         >>>     """
         >>>     # Print Update
-        >>>     print(f"--- Iteration {its}: Residual Norm = {rnorm:.2e}, Current x = {val:.4f} ---")
+        >>>     val = snes.getSolution().array_r[0]
+        >>>     print(f"--- Iteration {it}: Residual Norm = {rnorm:.2e}, Current x = {val:.4f} ---")
         >>> 
         >>> def form_function(snes, x, f):
         >>>     """
@@ -70,13 +71,13 @@
         >>> snes.setFunction(form_function, f)
         >>> 
         >>> # Set the custom monitor
-        >>> snes.setMonitor(my_monitor)
+        >>> snes.setMonitor(monitor)
         >>> 
         >>> # Solve
         >>> snes.setFromOptions() # Allows overriding via command line (e.g., -snes_monitor)
         >>> snes.solve(None, x)
         >>> 
-        >>> print(f"\nFinal Solution: {x.getArray()[0]}")
+        >>> print(f"Final Solution: {x.getArray()[0]}")
         --- Iteration 0: Residual Norm = 1.00e+00, Current x = 1.0000 ---
         --- Iteration 1: Residual Norm = 2.50e-01, Current x = 1.5000 ---
         --- Iteration 2: Residual Norm = 6.94e-03, Current x = 1.4167 ---
