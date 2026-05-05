@@ -25,24 +25,53 @@
 
         Examples
         --------
-        (See tutorial_module.py) Create a function to monitor the SNES and use getConvergedReason() to check its status:
+        Monitor the SNES and use getConvergedReason() to check its status while solving x^2-2=0:
         
+        >>> import sys
+        >>> from petsc4py import PETSc
+        >>> 
         >>> def monitor(snes, it, rnorm):
+        >>>     """
+        >>>     Custom monitor function.
+        >>>     snes: The SNES object
+        >>>     its:  Current iteration number
+        >>>     rnorm: Current L2 norm of the residual
+        >>>     """
+        >>>     # Print Update
         >>>     reason = snes.getConvergedReason()
-        >>>     PETSc.Sys.Print("Still iterating" if reason == snes.ConvergedReason.ITERATING else "Iteration complete")
-
-        Set the monitor, and solve.
-        
-        >>> ...
+        >>>     print(f"Convergence status: {reason}")
+        >>> 
+        >>> def form_function(snes, x, f):
+        >>>     """
+        >>>     Defines the function F(x) = x^2 - 2
+        >>>     """
+        >>>     x_val = x.array_r[0]
+        >>>     f_val = x_val**2 - 2.0
+        >>>     f.setArray([f_val])
+        >>> 
+        >>> # Initialize PETSc vectors
+        >>> x = PETSc.Vec().createSeq(1)  # Solution vector
+        >>> f = PETSc.Vec().createSeq(1)  # Residual vector
+        >>> 
+        >>> # Set initial guess
+        >>> x.setArray([1.0]) 
+        >>> 
+        >>> # Create the SNES solver
+        >>> snes = PETSc.SNES().create()
+        >>> snes.setFunction(form_function, f)
+        >>> 
+        >>> # Set the custom monitor
         >>> snes.setMonitor(monitor)
-        >>> snes.setFromOptions()
-        >>> ...
+        >>> 
+        >>> # Solve
+        >>> snes.setFromOptions() # Allows overriding via command line (e.g., -snes_monitor)
         >>> snes.solve(None, x)
-        >>> its = snes.getIterationNumber()
-        >>> PETSc.Sys.Print(f"number of SNES iterations = {its}\n")
-        Still iterating
-        Still iterating
-        Still iterating
-        Iteration complete
-        number of SNES iterations = 3
+        >>> 
+        >>> print(f"Final Solution: {x.getArray()[0]}")
+        Convergence status: 0
+        Convergence status: 0
+        Convergence status: 0
+        Convergence status: 0
+        Convergence status: 3
+        Final Solution: 1.4142135623747067
         """
