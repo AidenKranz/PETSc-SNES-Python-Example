@@ -77,7 +77,7 @@ def monitor(snes, its, fnorm):
     """User-defined monitoring routine."""
     reason = snes.getConvergedReason()
     PETSc.Sys.Print(f"iter = {its}, SNES Function norm {fnorm:g}")
-    
+    PETSc.Sys.Print("Still iterating" if reason == snes.ConvergedReason.ITERATING else "Iteration complete")
     # Get the current solution vector from the SNES context
     x_current = snes.getSolution()
 
